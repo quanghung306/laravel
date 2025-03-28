@@ -51,4 +51,10 @@ class Category extends Model
     {
         return $query->whereNotNull('parent_id');
     }
+
+    public function color() {
+        if ($this->color == 0) return "red";
+
+        return "blue";
+    }
 }

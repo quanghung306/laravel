@@ -17,7 +17,7 @@ class ProductService
     // Lấy sản phẩm theo ID
     public function getById($id)
     {
-        return Product::findOrFail($id);
+        return Product::with('category')->findOrFail($id);
     }
 
     // Tạo sản phẩm

@@ -13,9 +13,12 @@ class CategoryResource extends JsonResource
             'id' => $this->id,
             'name' => $this->name,
             'parent' => new CategoryResource($this->whenLoaded('parent')), // Trả về danh mục cha nếu đã load
-            'created_at' => $this->created_at,
-            'updated_at' => $this->updated_at,
+            'created_at' => $this->created_at->format('Y-m-d'),
+            'updated_at' => $this->updated_at->format('Y-m-d'),
             'children' =>  CategoryResource::collection($this->whenLoaded('children')), // Trả về danh mục con nếu đã load
         ];
     }
 }
+
+
+//mutator,

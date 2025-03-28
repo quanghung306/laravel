@@ -11,8 +11,6 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 class CategoryController extends Controller
 {
     protected $categoryService;
-
-
     public function __construct(categoryService $categoryService)
     {
         $this->categoryService = $categoryService;
