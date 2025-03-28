@@ -46,6 +46,12 @@ class CategoryService
         });
     }
 
+    // Lấy tất cả sản phẩm của danh mục
+    public function getCategoryProducts(int $id)
+    {
+        $category = Category::findOrFail($id);
+        return $category->getAllProducts()->get();
+    }
     // Lấy danh mục con
     public function getCategoryChildren(int $id)
     {
@@ -53,10 +59,4 @@ class CategoryService
         return $category->children;
     }
 
-    // Lấy tất cả sản phẩm của danh mục
-    public function getCategoryProducts(int $id)
-    {
-        $category = Category::findOrFail($id);
-        return $category->getAllProducts()->get();
-    }
 }
