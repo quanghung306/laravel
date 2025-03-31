@@ -2,44 +2,31 @@
 
 namespace App\Services;
 
-use App\Models\Users;
+use App\Models\User; // Đổi từ Users thành User
 use Illuminate\Support\Facades\DB;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
-use Exception;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Http\Request;
 
 class UsersService
 {
     // Lấy tất cả người dùng
-    public function getAll()
+    public function getAll(Request $request)
     {
-        try {
-            return Users::all();
-        } catch (Exception $e) {
-            throw new Exception('Error fetching users: ' . $e->getMessage());
-        }
+        return $request->user();
     }
 
     // Lấy người dùng theo ID
     public function getById($id)
     {
-        try {
-            return Users::findOrFail($id);
-        } catch (ModelNotFoundException $e) {
-            throw new ModelNotFoundException('User not found with ID ' . $id);
-        } catch (Exception $e) {
-            throw new Exception('Error fetching user by ID: ' . $e->getMessage());
-        }
+        return User::findOrFail($id);
     }
 
     // Tạo người dùng mới
     public function create(array $data)
     {
-        try {
-            return DB::transaction(function () use ($data) {
-                return Users::create($data);
-            });
-        } catch (Exception $e) {
-            throw new Exception('Error creating user: ' . $e->getMessage());
-        }
+        return DB::transaction(function () use ($data) {
+            $data['password'] = Hash::make($data['password']); // Hash password
+            return User::create($data);
+        });
     }
 }

@@ -31,15 +31,4 @@ class StoreProductRequest extends FormRequest
             'category_id' => 'nullable|exists:category,id',
         ];
     }
-    public function messages(): array
-    {
-        return [
-            'name.required' => 'Tên sản phẩm là bắt buộc.',
-            'price.required' => 'Giá sản phẩm không được để trống.',
-            'price.numeric' => 'Giá sản phẩm phải là số.',
-            'stock.required' => 'Số lượng sản phẩm không được để trống.',
-            'stock.integer' => 'Số lượng phải là số nguyên.',
-            'category_id.exists' => 'Danh mục không hợp lệ.',
-        ];
-    }
 }

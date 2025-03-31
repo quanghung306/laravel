@@ -2,31 +2,34 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\UserResource;
 use App\Services\UsersService;
+use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class UsersController extends Controller
 {
-    protected $UsersService;
+    protected $usersService;
 
-    public function __construct(UsersService $UsersService)
+    public function __construct(UsersService $usersService)
     {
-        $this->UsersService = $UsersService;
+        $this->usersService = $usersService;
     }
 
-    public function index()
+    public function index(Request $request)
     {
-        return response()->json($this->UsersService->getAll());
+        $user = $this->usersService->getAll($request);
+        return new UserResource($user);
     }
-
     public function show($id)
     {
-        return response()->json($this->UsersService->getById($id));
+        try {
+            $user = $this->usersService->getById($id);
+            return new UserResource($user);
+        } catch (Exception $e) {
+            Log::error($e->getMessage());
+            return response()->json(['message' => 'User not found'], 404);
+        }
     }
-     // Tạo sản phẩm mới
-     public function store(Request $request)
-     {
-         $product = $this->UsersService->create($request->all());
-         return response()->json($product, 201);
-     }
 }
