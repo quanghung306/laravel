@@ -1,6 +1,7 @@
 <?php
 use App\Http\Controllers\CartsController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\UsersController;
 use Illuminate\Http\Request;
@@ -48,3 +49,6 @@ Route::post('users', [UsersController::class, 'store']);
 Route::get('users/{id}', [UsersController::class, 'show']);
 Route::put('users/{id}', [UsersController::class, 'update']);
 Route::delete('users/{id}', [UsersController::class, 'destroy']);
+
+// home
+Route::get('/home', [HomeController::class, 'index']);
