@@ -8,6 +8,7 @@ use App\Http\Requests\StoreProductRequest;
 use App\Http\Requests\UpdateProductRequest;
 use Exception;
 use Illuminate\Support\Facades\Log;
+
 class ProductController extends Controller
 {
     protected $productService;
