@@ -1,34 +1,34 @@
 <?php
 namespace App\Services;
-use App\Models\Carts;
+use App\Models\Cart;
 
 
 class CartsService
 {
     public function getAll()
     {
-        return Carts::all();
+        return Cart::all();
     }
 
     public function getById($id)
     {
-        return Carts::findOrFail($id);
+        return Cart::findOrFail($id);
     }
 
     public function create(array $data)
     {
-        return Carts::create($data);
+        return Cart::create($data);
     }
 
     public function update($id, array $data)
     {
-        $cart = Carts::findOrFail($id);
+        $cart = Cart::findOrFail($id);
         $cart->update($data);
         return $cart;
     }
 
     public function delete($id)
     {
-        return Carts::findOrFail($id)->delete();
+        return Cart::findOrFail($id)->delete();
     }
 }

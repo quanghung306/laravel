@@ -15,6 +15,7 @@ class AuthService
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
+            'role' => 'customer',
         ]);
 
         return $user->createToken('UserToken')->plainTextToken;
@@ -36,8 +37,8 @@ class AuthService
     public function logout(User $user): bool
 {
     try {
+     // $user->currentAccessToken()->delete();
         $user->tokens()->delete();
-        // $user->currentAccessToken()->delete();
         return true;
     } catch (Exception $e) {
         logger()->error('Logout failed: ' . $e->getMessage());

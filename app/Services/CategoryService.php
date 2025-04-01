@@ -4,9 +4,6 @@ namespace App\Services;
 
 use App\Models\Category;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
-use Exception;
-
 class CategoryService
 {
     // Lấy tất cả danh mục cha + con

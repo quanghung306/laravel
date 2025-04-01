@@ -11,6 +11,7 @@ class ProductService
     // Lấy tất cả sản phẩm
     public function getAll()
     {
+
         return Product::with('category')->get();
     }
 

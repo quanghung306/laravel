@@ -8,54 +8,57 @@ use App\Http\Controllers\UsersController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
-// Middleware bảo vệ API với Sanctum
+//  route yêu cầu xác thực (Sanctum)
 Route::middleware('auth:sanctum')->group(function () {
-    Route::get('/user', function (Request $request) {
-        return $request->user();
+    Route::get('/user', fn(Request $request) => $request->user());
+
+    Route::prefix('users')->group(function () {
+        Route::get('/', [UsersController::class, 'index']);
+        Route::post('/', [UsersController::class, 'store']);
+        Route::get('/{id}', [UsersController::class, 'show']);
+        Route::put('/{id}', [UsersController::class, 'update']);
+        Route::delete('/{id}', [UsersController::class, 'destroy']);
     });
-    Route::get('users', [UsersController::class, 'index']);
+
     Route::post('/logout', [AuthController::class, 'logout']);
 });
 
-// auth
-Route::post('/login', [AuthController::class, 'login']);
-Route::post('/register', [AuthController::class, 'register']);
+//   route Auth
+Route::prefix('auth')->group(function () {
+    Route::post('/login', [AuthController::class, 'login']);
+    Route::post('/register', [AuthController::class, 'register']);
+});
 
-// Category
-// Lấy danh sách danh mục
-Route::get('category', [CategoryController::class, 'index']);
-// Thêm mới danh mục
-Route::post('category', [CategoryController::class, 'store']);
-// Xem chi tiết danh mục
-Route::get('category/{id}', [CategoryController::class, 'show']);
-// Cập nhật danh mục
-Route::put('category/{id}-23', [CategoryController::class, 'update']);
-// Xóa danh mục
-Route::delete('category/{id}', [CategoryController::class, 'destroy']);
+//   route Category
+Route::prefix('category')->group(function () {
+    Route::get('/', [CategoryController::class, 'index']);
+    Route::post('/', [CategoryController::class, 'store']);
+    Route::get('/{id}', [CategoryController::class, 'show']);
+    Route::put('/{id}', [CategoryController::class, 'update']);
+    Route::delete('/{id}', [CategoryController::class, 'destroy']);
 
-// Route phụ cho danh mục
-Route::get('category/{id}/children', [CategoryController::class, 'children']); // Lấy danh mục con
-Route::get('products/{id}/category', [CategoryController::class, 'products']); // Lấy sản phẩm trong danh mục
+    // Route phụ của Category
+    Route::get('/{id}/children', [CategoryController::class, 'children']);
+    Route::get('/{id}/products', [CategoryController::class, 'products']);
+});
 
-// Product
-Route::get('products', [ProductController::class, 'index']);
-Route::post('products', [ProductController::class, 'store']);
-Route::get('products/{id}', [ProductController::class, 'show']);
-Route::put('products/{id}', [ProductController::class, 'update']);
-Route::delete('products/{id}', [ProductController::class, 'destroy']);
+//   route Product
+Route::prefix('products')->group(function () {
+    Route::get('/', [ProductController::class, 'index']);
+    Route::get('/{id}', [ProductController::class, 'show']);
 
-// Cart
-Route::get('carts', [CartsController::class, 'index']);
-Route::post('carts', [CartsController::class, 'store']);
-Route::get('carts/{id}', [CartsController::class, 'show']);
-Route::put('carts/{id}', [CartsController::class, 'update']);
+    Route::middleware(['auth:sanctum', 'role:admin'])->group(function () {
+        Route::post('/', [ProductController::class, 'store']);
+        Route::put('/{id}', [ProductController::class, 'update']);
+        Route::delete('/{id}', [ProductController::class, 'destroy']);
+    });
+});
 
-Route::delete('carts/{id}', [CartsController::class, 'destroy']);
-
-// Users
-
-Route::post('users', [UsersController::class, 'store']);
-Route::get('users/{id}', [UsersController::class, 'show']);
-Route::put('users/{id}', [UsersController::class, 'update']);
-Route::delete('users/{id}', [UsersController::class, 'destroy']);
-
+//  route Cart
+Route::prefix('carts')->group(function () {
+    Route::get('/', [CartsController::class, 'index']);
+    Route::post('/', [CartsController::class, 'store']);
+    Route::get('/{id}', [CartsController::class, 'show']);
+    Route::put('/{id}', [CartsController::class, 'update']);
+    Route::delete('/{id}', [CartsController::class, 'destroy']);
+});

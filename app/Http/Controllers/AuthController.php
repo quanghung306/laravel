@@ -6,7 +6,7 @@ use App\Http\Requests\RegisterRequest;
 use App\Http\Requests\LoginRequest;
 use App\Services\AuthService;
 use Exception;
-use Illuminate\Http\Request;  // Sửa lại import đúng
+use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 
 class AuthController extends Controller
@@ -27,6 +27,7 @@ class AuthController extends Controller
 
     public function login(LoginRequest $request): JsonResponse
     {
+
         $token = $this->authService->login($request->validated());
         return response()->json(['token' => $token], 200);
     }
