@@ -56,8 +56,8 @@ class CategoryController extends Controller
             ]);
             $category = $this->categoryService->updateCategory($id, $validated);
             return response()->json([
-                'category'=>new CategoryResource($category),
-                'message'=> 'Category updated successfully'
+                'category' => new CategoryResource($category),
+                'message' => 'Category updated successfully'
 
             ]);
         } catch (ModelNotFoundException $e) {
@@ -87,5 +87,4 @@ class CategoryController extends Controller
         $children = $this->categoryService->getCategoryChildren($id);
         return CategoryResource::collection($children);
     }
-
 }
